@@ -1,0 +1,191 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Apply Leave</title>
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #34495e;
+            --accent-color: #3498db;
+            --background-color: #f4f7f6;
+            --card-bg: #ffffff;
+        }
+
+        body {
+            margin: 0;
+            display: flex;
+            font-family: 'Segoe UI', sans-serif;
+            background-color: var(--background-color);
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 250px;
+            background-color: var(--primary-color);
+            color: white;
+            height: 100vh;
+        }
+
+        .sidebar-header {
+            padding: 20px;
+            text-align: center;
+            background-color: var(--secondary-color);
+        }
+
+        .nav-links {
+            list-style: none;
+            padding: 0;
+        }
+
+        .nav-links li {
+            padding: 15px;
+        }
+
+        .nav-links li a {
+            color: #bdc3c7;
+            text-decoration: none;
+        }
+
+        .nav-links li a:hover {
+            color: white;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            padding: 30px;
+        }
+
+        h2 {
+            color: var(--primary-color);
+        }
+
+        .form-card {
+            background: var(--card-bg);
+            padding: 25px;
+            border-radius: 10px;
+            max-width: 500px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        textarea {
+            resize: none;
+        }
+
+        .btn {
+            margin-top: 10px;
+            padding: 10px 15px;
+            background: var(--accent-color);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background: #2980b9;
+        }
+
+        .msg {
+            margin-bottom: 10px;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        .success { background: #d4edda; color: #155724; }
+        .error { background: #f8d7da; color: #721c24; }
+        .warning { background: #fff3cd; color: #856404; }
+
+    </style>
+</head>
+
+<body>
+
+<!-- Sidebar -->
+<div class="sidebar">
+    <div class="sidebar-header">Employee Portal</div>
+
+    <ul class="nav-links">
+        <li><a href="{% url 'employee_home' %}"><i class="fas fa-home"></i> Dashboard</a></li>
+        <li><a href="{% url 'apply_leave' %}"><i class="fas fa-plus"></i> Apply Leave</a></li>
+        <li><a href="{% url 'leave_emp' %}"><i class="fas fa-calendar"></i> My Leaves</a></li>
+        <li><a href="{% url 'logout' %}"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+    </ul>
+</div>
+
+<!-- Main Content -->
+<div class="main-content">
+
+    <h2>Apply for Leave</h2>
+
+    <!-- Messages -->
+    {% if error == "no" %}
+        <div class="msg success">Leave applied successfully!</div>
+    {% elif error == "yes" %}
+        <div class="msg error">Something went wrong!</div>
+    {% elif error == "date_error" %}
+        <div class="msg warning">End date cannot be before start date!</div>
+    {% elif error == "overlap" %}
+        <div class="msg warning">You already have leave in this period!</div>
+    {% endif %}
+
+    <div class="form-card">
+        <form method="POST">
+            {% csrf_token %}
+
+            <div class="form-group">
+                <label>Leave Type</label>
+                <select name="leave_type" required>
+                    <option value="">Select</option>
+                    <option value="Sick">Sick Leave</option>
+                    <option value="Casual">Casual Leave</option>
+                    <option value="Paid">Paid Leave</option>
+                    <option value="Unpaid">Unpaid Leave</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Start Date</label>
+                <input type="date" name="start_date" required>
+            </div>
+
+            <div class="form-group">
+                <label>End Date</label>
+                <input type="date" name="end_date" required>
+            </div>
+
+            <div class="form-group">
+                <label>Reason</label>
+                <textarea name="reason" rows="4" required></textarea>
+            </div>
+
+            <button type="submit" class="btn">Apply Leave</button>
+        </form>
+    </div>
+
+</div>
+
+</body>
+</html>

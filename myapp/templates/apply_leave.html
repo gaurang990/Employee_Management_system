@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Apply Leave</title>
+
+    <!-- Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-color: #1e293b;
+            --accent-color: #6366f1;
+            --background-color: linear-gradient(135deg, #e0e7ff, #f1f5f9);
+            --text-color: #1f2937;
+            --border: #cbd5e1;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: var(--background-color);
+        }
+
+        .container {
+            background: rgba(255,255,255,0.9);
+            backdrop-filter: blur(10px);
+            padding: 35px;
+            width: 100%;
+            max-width: 450px;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from {opacity:0; transform: translateY(20px);}
+            to {opacity:1; transform: translateY(0);}
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: var(--primary-color);
+        }
+
+        .back-btn {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 8px;
+            background: #ef4444;
+            color: white;
+            font-weight: 600;
+            margin-bottom: 15px;
+            cursor: pointer;
+        }
+
+        .back-btn:hover {
+            background: #dc2626;
+        }
+
+        label {
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+            display: block;
+            color: var(--text-color);
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 2px rgba(99,102,241,0.2);
+        }
+
+        textarea {
+            resize: none;
+            height: 90px;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            background: var(--accent-color);
+            color: white;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .submit-btn:hover {
+            background: #4f46e5;
+        }
+
+        .success {
+            color: green;
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .error {
+            color: red;
+            text-align: center;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h2>Apply Leave</h2>
+
+    <!-- ✅ BACK BUTTON -->
+    <a href="{% url 'employee_home' %}">
+        <button type="button" class="back-btn">← Back to Dashboard</button>
+    </a>
+
+    <form method="POST">
+        {% csrf_token %}
+
+        <label>Leave Type:</label>
+        <select name="leave_type">
+            <option value="Sick">Sick</option>
+            <option value="Casual">Casual</option>
+            <option value="Paid">Paid</option>
+            <option value="Unpaid">Unpaid</option>
+        </select>
+
+        <label>Start Date:</label>
+        <input type="date" name="start_date" required>
+
+        <label>End Date:</label>
+        <input type="date" name="end_date" required>
+
+        <label>Reason:</label>
+        <textarea name="reason" required></textarea>
+
+        <button type="submit" class="submit-btn">Apply Leave</button>
+
+    </form>
+
+    {% if error == "no" %}
+        <p class="success">Leave Applied Successfully</p>
+    {% endif %}
+
+    {% if error == "yes" %}
+        <p class="error">Error applying leave</p>
+    {% endif %}
+
+</div>
+
+</body>
+</html>
