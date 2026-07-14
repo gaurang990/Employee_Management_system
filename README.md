@@ -124,18 +124,6 @@ The system stores employee details such as:
 * Joining Date
 * Salary Details
 
-## 📸 Screenshots
-
-Add application screenshots:
-
-```text
-screenshots/
-├── login.png
-├── dashboard.png
-├── employee-list.png
-└── employee-details.png
-```
-
 ## 📝 Usage
 
 1. Login to the system.
@@ -158,7 +146,7 @@ screenshots/
 
 **Your Name**
 
-GitHub: https://github.com/your-username
+GitHub: https://github.com/gaurang990
 
 ## 📄 License
 
